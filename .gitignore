@@ -16,14 +16,21 @@ poetry.lock
 
 # Database files
 *.sqlite3
+*.db
 
 # Cache and logs
 .cache
 *.log
+logs/
 
 # Configuration files (if you store sensitive information)
 instance/
-.env
+.env*
+alembic.ini
+
+# Alembic migration files
+migrations/versions/*.pyc
+migrations/versions/__pycache__/
 
 # IDE or editor specific files
 .idea/

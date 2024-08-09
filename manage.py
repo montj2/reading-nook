@@ -1,4 +1,4 @@
-# __init__.py -- Initialize the reading-nook application
+# manage.py - Flask CLI commands for reading-nook
 """
 ISC License (ISC)
 
@@ -16,33 +16,11 @@ WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
 ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 """
+from flask.cli import FlaskGroup
 
-from flask import Flask
-from flask_migrate import Migrate
-from .database import db
-from .models import User, Article, Tag  # Import your models
-from .config import Config
+from app import create_app
 
-migrate = Migrate()
-
-def create_app(config_class=Config):
-    app = Flask(__name__)
-    app.config.from_object(config_class)
-
-    # Initialize the database and migration tools
-    db.init_app(app)
-    migrate.init_app(app, db)
-
-    @app.route('/')
-    def hello():
-        return "Welcome to Reading Nook!"
-
-    with app.app_context():
-        db.create_all()  # This is optional if you're using Flask-Migrate
-
-    return app
-
+cli = FlaskGroup(create_app=create_app)
 
 if __name__ == '__main__':
-    app = create_app()
-    app.run(debug=True)
+    cli()
